@@ -76,7 +76,7 @@
                                 <span class="label">New</span>
                                 <ul class="product__hover">
                                     <li><a href="#"><img src="{% static "img/icon/heart.png"%}" alt=""></a></li>
-                                    <li><a href="{% url "details" %}"><img src="{% static "img/icon/eye.png"%}" alt=""></a></li>
+                                    <li><a href="{{product.get_url}}"><img src="{% static "img/icon/eye.png"%}" alt=""></a></li>
                                 </ul>
                             </div>
                             <div class="product__item__text">

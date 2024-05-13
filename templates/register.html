@@ -1,0 +1,69 @@
+
+{% extends "home.html"%}
+ {% block content %}
+<div style="display: flex;justify-content: center;align-items: center;margin-top: 20px;">
+    <div style="background-color:rgb(231, 231, 231); padding: 15px; border-radius: 20px;">
+        <!-- Pills navs -->
+        <ul class="nav nav-justified mb-3">
+           <li class="nav-item">
+           <a class="nav-link" href="{% url "login" %}">Login</a>
+           </li>
+           <li class="nav-item">
+              <a class="nav-link active btn btn-secondary"href="{% url "register" %}">Register</a>
+           </li>
+        </ul>
+          <!-- forms starts here -->
+          <form action="{% url "shop" %}" method='POST'>
+                {% csrf_token %}
+                <!-- username -->
+                    <div class="mb-2 mt-4 m-2">
+                      <label>User Name</label>
+                        {{form.username}}
+                    </div>
+                <!-- username ends here -->
+                <!-- fname and lname -->
+                    <div style="display: flex ;">
+                        <div class="mb-2 mt-4 m-2">
+                          <label>First Name</label>
+                          {{form.first_name}}
+                        </div>
+                        <div class="form-outline mb-2 mt-4">
+                          <label>Last Name</label>
+                          {{form.last_name}}  
+                        </div>
+                    </div>
+                <!-- fname and lname ends here -->
+                <!-- email and phone number -->
+                        <div style="display: flex ;">
+                          <div class="mb-2 mt-4 m-2">
+                            <label>Email</label>
+                            {{form.email}}
+                          </div>
+                          <div class="form-outline mb-2 mt-4">
+                            <label>Phone Number</label>
+                            {{form.last_name}}  
+                          </div>
+                        </div>
+                <!-- email and password ends here -->
+                <!-- password and confirm password -->
+                        <div style="display: flex ;">
+                          <div class="mb-2 mt-4 m-2">
+                            <label>Password</label>
+                            {{form.password}}
+                          </div>
+                          <div class="form-outline mb-2 mt-4">
+                            <label>Repeat Password</label>
+                            {{form.confirm_password}}  
+                          </div>
+                        </div>
+                <!-- password and confirm password ends here-->
+                        <button type="submit" class="btn btn-secondary btn-block m-4" style="width: 400px;">Register</button>
+          </form>
+                <div class="text-center">
+                    <p>Already a member? <a href="{% url "login" %}">Sign In</a></p>
+                </div>
+    </div>
+</div>
+{% endblock content %}
+
+
