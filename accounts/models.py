@@ -9,50 +9,52 @@ class MyaccountManager(BaseUserManager):
         if not username:
             raise ValueError('invalid username')
         user=self.model(
-            email=self.normalize_email(email),
-            username=username,
-            first_name=first_name,
-            last_name=last_name
+            email       =self.normalize_email(email),
+            username    =username,
+            first_name  =first_name,
+            last_name   =last_name
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
-    def create_superuser(self,first_name,last_name,username,email,password=None):
+    def create_superuser(self,first_name,last_name,username,email,password):
         user=self.create_user(
-            email=self.normalize_email(email),
-            username=username,
-            first_name=first_name,
-            last_name=last_name,
-            password=password
+            email       =self.normalize_email(email),
+            username    =username,
+            first_name  =first_name,
+            last_name   =last_name,
+            password    =password
         )
         user.is_admin=True
         user.is_active=True
         user.is_staff=True
         user.is_superadmin=True
         user.save(using=self._db)
-        
+        return user
         
         
         
 class Account(AbstractBaseUser):
-    first_name=models.CharField(max_length=50)
-    last_name=models.CharField(max_length=50)
-    username=models.CharField(max_length=50,unique=True)
-    email=models.EmailField(max_length=254,unique=True)
-    phone_number=models.CharField(max_length=50,null=True)
+    first_name      =models.CharField(max_length=50)
+    last_name       =models.CharField(max_length=50)
+    username        =models.CharField(max_length=50,unique=True)
+    email           =models.EmailField(max_length=254,unique=True)
+    phone_number    =models.CharField(max_length=50,null=True)
     
     # required
-    date_joined=models.DateTimeField(auto_now_add=True)
-    last_logined=models.DateTimeField(auto_now_add=True)
-    is_admin=models.BooleanField(default=False)
-    is_staff=models.BooleanField(default=False)
-    is_active=models.BooleanField(default=False)
-    is_superadmin=models.BooleanField(default=False)
+    date_joined     =models.DateTimeField(auto_now_add=True)
+    last_logined     =models.DateTimeField(auto_now_add=True)
+    is_admin        =models.BooleanField(default=False)
+    is_staff        =models.BooleanField(default=False)
+    is_active       =models.BooleanField(default=False)
+    is_superadmin   =models.BooleanField(default=False)
     
+    #To change username into email for using login
     USERNAME_FIELD='email'
     REQUIRED_FIELDS=['username','first_name','last_name']
     
     objects=MyaccountManager()
+    
     def __str__(self):
         return self.email
     
