@@ -19,6 +19,10 @@
                     <div class="mb-2 mt-4 m-2">
                       <label>User Name</label>
                         {{form.username}}
+                        {% for error in form.username.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                        
                     </div>
                 <!-- username ends here -->
                 <!-- fname and lname -->
@@ -38,10 +42,13 @@
                           <div class="mb-2 mt-4 m-2">
                             <label>Email</label>
                             {{form.email}}
+                            {% for error in form.email.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                            {% endfor %}
                           </div>
                           <div class="form-outline mb-2 mt-4">
                             <label>Phone Number</label>
-                            {{form.last_name}}  
+                            {{form.phone_number}}  
                           </div>
                         </div>
                 <!-- email and password ends here -->
@@ -54,6 +61,10 @@
                           <div class="form-outline mb-2 mt-4">
                             <label>Repeat Password</label>
                             {{form.confirm_password}}  
+                            
+                            {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                            {% endfor %}
                           </div>
                         </div>
                 <!-- password and confirm password ends here-->
