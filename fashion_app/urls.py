@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from accounts.views import register,login,userout,activate,dashboard
+from accounts.views import register,login,userout,activate,dashboard,forgotpassword,resetpassword_verify,resetpassword
 from store.views import details,shop
 
 urlpatterns = [
@@ -22,6 +22,10 @@ urlpatterns = [
     
     path('login',login, name='login'),
     
+    path('forgotpassword',forgotpassword, name='forgotpassword'),
+    
+    path('resetpassword',resetpassword, name='resetpassword'),
+    
     path('register',register, name='register'),
     
     path('userout',userout, name='userout'),
@@ -29,6 +33,8 @@ urlpatterns = [
     path('dashboard',dashboard, name='dashboard'),
     
     path('activate/<uidb64>/<token>',activate, name='activate'),
+    
+    path('resetpassword_verify/<uidb64>/<token>',resetpassword_verify, name='resetpassword_verify'),
     
     
 ]
