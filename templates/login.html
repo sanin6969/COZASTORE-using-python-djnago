@@ -1,68 +1,39 @@
 
 {% extends "home.html"%}
  {% block content %}
- <div style="display: flex;justify-content: center;align-items: center;margin-top: 20px;">
+ <div style="display: flex;justify-content: center;align-items: center;margin-top: 20px; margin-bottom:50px;">
    <div style="background-color:rgb(231, 231, 231); padding: 15px; border-radius: 20px;">
      <!-- Pills navs -->
      <ul class="nav nav-justified mb-3">
-          {% include "alert.html" %}
            <li class="nav-item">
-           <a class="nav-link active  btn btn-secondary" href="{% url "login" %}">Login</a>
+           <a class="nav-link active  btn btn-secondary" href="{% url "login" %}">Sign In</a>
            </li>
            <li class="nav-item">
               <a class="nav-link "href="{% url "register" %}">Register</a>
            </li>
         </ul>
           <!-- forms starts here -->
-          <form action="{% url "register" %}" method="POST">
+          <form action="{% url "login" %}" method="POST">
                 {% csrf_token %}
                 <!-- username -->
                     <div class="mb-2 mt-4 m-2">
-                      <label>User Name</label>
-                      
-                        
+                      <label>Email</label>
+                      <input type="email" class="form-control" placeholder="Enter the email" name="email">
                     </div>
-                <!-- username ends here -->
-                <!-- fname and lname -->
+                    <!-- username ends here -->
+                    <!-- password and confirm password -->
                     <div style="display: flex ;">
-                        <div class="mb-2 mt-4 m-2">
-                          <label>First Name</label>
-                       
-                        </div>
-                        <div class="form-outline mb-2 mt-4">
-                          <label>Last Name</label>
-                         
-                        </div>
+                      <div class="mb-2 mt-4 m-2">
+                        <label>Password</label>
+                        <input type="password" class="form-control" placeholder="Enter the password" name="password">
+                        <p><a href="{% url "login" %}">Forgotpassword?</a></p>
+                      </div>
                     </div>
-                <!-- fname and lname ends here -->
-                <!-- email and phone number -->
-                        <div style="display: flex ;">
-                          <div class="mb-2 mt-4 m-2">
-                            <label>Email</label>
-                          
-                          </div>
-                          <div class="form-outline mb-2 mt-4">
-                            <label>Phone Number</label>
-                        
-                          </div>
-                        </div>
-                <!-- email and password ends here -->
-                <!-- password and confirm password -->
-                        <div style="display: flex ;">
-                          <div class="mb-2 mt-4 m-2">
-                            <label>Password</label>
-                            {{form.password}}
-                          </div>
-                          <div class="form-outline mb-2 mt-4">
-                            <label>Repeat Password</label>
-                         
-                          </div>
-                        </div>
                 <!-- password and confirm password ends here-->
-                        <button type="submit" class="btn btn-secondary btn-block m-4" style="width: 400px;">Register</button>
+                        <button type="submit" class="btn btn-secondary btn-block m-4" style="width: 400px;">Sign In</button>
           </form>
                 <div class="text-center">
-                    <p>Already a member? <a href="{% url "login" %}">Sign In</a></p>
+                    <p>Dont have a account? <a href="{% url "register" %}">Register</a></p>
                 </div>
     </div>
 </div>

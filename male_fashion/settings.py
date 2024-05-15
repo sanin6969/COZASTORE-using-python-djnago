@@ -142,5 +142,12 @@ MESSAGE_TAGS = {
     50: "critical",
 }
 
+# SMTP configuration
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+EMAIL_HOST_USER='muhdsaninev@gmail.com'
+EMAIL_HOST_PASSWORD='qhxo fcio snlu gzzc'
+EMAIL_USE_TLS=True
+
 
 # admin password =admin

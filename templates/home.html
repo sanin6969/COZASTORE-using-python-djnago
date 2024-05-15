@@ -67,9 +67,17 @@
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__links">
+                                {% if user.id is  None %}
+                                <a>Welcome Guest</a>
                                 <a href="{% url "login" %}">Sign in</a>
                                 <a>|</a>
                                 <a href="{% url "register" %}">Register</a>
+                                {% else %}
+                                <a>Welcome {{user.username}}</a>
+                                <a href="{% url 'userout' %}">Logout</a>
+                                <a>|</a>
+                                <a href="{% url "dashboard" %}">Dashboard</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -96,8 +104,7 @@
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
                         <a href="#" class="search-switch"><img src="{% static "img/icon/search.png" %}" alt=""></a>
-                        user
-                        <a href="#"><img src="{% static "img/icon/user.png" %}" alt=""></a>
+                        {% comment %} <a href="#"><img src="{% static "img/icon/user.png" %}" alt=""></a> {% endcomment %}
                         <a href="#"><img src="{% static "img/icon/heart.png" %}" alt=""></a>
                         <a href="{% url "cart" %}"><img src="{% static "img/icon/cart.png" %}" alt=""> <span>8</span></a>
                         <div class="price">$10.00</div>
@@ -106,6 +113,7 @@
             </div>
         </div>
     </header>
+    {% include "alert.html" %}
     <!-- Header Section End -->
     {% block content %}
     <!-- Hero Section Begin -->
