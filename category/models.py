@@ -5,6 +5,8 @@ from django.urls import reverse
 class Category(models.Model):
     category_name=models.CharField(max_length=100,blank=True)
     slug=models.SlugField(max_length=100,blank=True)
+    # color=models.CharField(max_length=50)
+    # size=models.IntegerField()
     category_image=models.ImageField(upload_to='photos/category')
     
     class Meta:

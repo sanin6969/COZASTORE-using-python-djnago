@@ -8,9 +8,6 @@ def home(request):
     products=Product.objects.all().filter(is_available=True)
     context={'products':products}
     return render(request,'home.html',context)
-def cart(request):
-    return render(request,'cart.html')
-
 def blog(request):
     return render(request,'blog.html')
 
