@@ -4,6 +4,7 @@ from django.urls import reverse
 # Create your models here.
 class Product(models.Model):
     product_name=models.CharField(max_length=150,unique=True)
+    product_brand=models.CharField(max_length=50,default=None)
     product_slug=models.SlugField(max_length=150,unique=True)
     product_description=models.TextField(max_length=500)
     product_price=models.IntegerField()
