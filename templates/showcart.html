@@ -81,7 +81,7 @@
                         <li>Tax 2% <span>${{tax}}</span></li>
                         <li>Grand Total <span>${{grand_total}}</span></li>
                     </ul>
-                    <a href="#" class="primary-btn">Proceed to checkout</a>
+                    <a href="{% url "checkout" %}" class="primary-btn">Proceed to checkout</a>
                 </div>
             </div>
             {% else  %}

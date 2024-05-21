@@ -65,7 +65,13 @@
                         <div class="product__details__text">
                             <h4>{{single_product.product_name}}</h4>
                             <h3>${{single_product.product_price}} only</h3>
-                            <p>{{single_product.product_description}}</p>
+                            <div class="product__details__last__option">
+                            <ul>
+                                <li><span>Categories:</span> {{single_product.category}}</li>
+                                <li><span>Brand:</span> {{single_product.product_brand}}</li>
+                            </ul>
+                        </div>
+                            {% comment %} <p>{{single_product.product_description}}</p> {% endcomment %}
                             <div class="product__details__option">
                                 <div class="product__details__option">
                                     <span>Size:</span>
@@ -107,9 +113,7 @@
                         <div class="product__details__last__option">
                             <h5><span>Guaranteed Safe Checkout</span></h5>
                             <img src="{% static "img/shop-details/details-payment.png" %}" alt="">
-                            <ul>
-                                <li><span>Categories:</span> {{single_product.category}}</li>
-                            </ul>
+                           
                         </div>
                     </div>
                 </div>
