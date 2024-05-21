@@ -16,6 +16,33 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-3">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
+                                <div class="product__thumb__pic set-bg" data-setbg="{{single_product.product_image.url}}">
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
+                                <div class="product__thumb__pic set-bg" data-setbg="{{single_product.product_image.url}}">
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">
+                                <div class="product__thumb__pic set-bg" data-setbg="{{single_product.product_image.url}}">
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">
+                                <div class="product__thumb__pic set-bg" data-setbg="{{single_product.product_image.url}}">
+                                    <i class="fa fa-play"></i>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="col-lg-6 col-md-9">
                     <div class="tab-content">
@@ -31,39 +58,51 @@
     </div>
     <div class="product__details__content">
         <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-lg-8">
-                    <div class="product__details__text">
-                        <h4>{{single_product.product_name}}</h4>
-                        <h3>${{single_product.product_price}} only</h3>
-                        <p>{{single_product.product_description}}</p>
-                        <div class="product__details__option">
-                            <div class="product__details__option__color">
+            <form action="{% url 'add_cart' single_product.id %}" method="GET">
+
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="product__details__text">
+                            <h4>{{single_product.product_name}}</h4>
+                            <h3>${{single_product.product_price}} only</h3>
+                            <p>{{single_product.product_description}}</p>
+                            <div class="product__details__option">
+                                <div class="product__details__option">
+                                    <span>Size:</span>
+                                    <div class="product__details__option__size">
+                                        <select name="size">
+                                        <option value="">Select Size</option>
+                                        <option value="small">Small</option>        
+                                        <option value="Medium">Medium</option>        
+                                        <option value="Large">Large</option>        
+                                        <option value="Extra_Large">Extra Large</option>        
+                                    </select>
+                                </div>
                                 <span>Color:</span>
-                                <label class="c-1" for="sp-1">
-                                    <input type="radio" id="sp-1">
-                                </label>
-                                <label class="c-2" for="sp-2">
-                                    <input type="radio" id="sp-2">
-                                </label>
-                                <label class="c-3" for="sp-3">
-                                    <input type="radio" id="sp-3">
-                                </label>
-                                <label class="c-4" for="sp-4">
-                                    <input type="radio" id="sp-4">
-                                </label>
-                                <label class="c-9" for="sp-9">
-                                    <input type="radio" id="sp-9">
-                                </label>
+                                <div class="product__details__option__size">
+                                    <select name="color">
+                                    <option value="">Select Color</option>
+                                    <option value="Red">Red</option>        
+                                    <option value="Green">Green</option>        
+                                    <option value="Blue">Blue</option>        
+                                    <option value="White">White</option>        
+                                </select>
+                                </div>
                             </div>
                         </div>
                         <div class="product__details__cart__option">
                             <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
-                                </div>
+                                
                             </div>
-                            <a href="{% url 'add_cart' single_product.id %}" class="primary-btn">add to cart</a>
+                            {% if single_product.product_stock <= 0 %}
+                            <a href="" class="btn btn-danger">OUT OF STOCK</a>
+                            {% else %}
+                            {% if in_cart %}
+                            <a href="{% url 'cart' %}" class="primary-btn">Added to cart <span>✔️</span></a>
+                            {% else %}
+                            <button type="submit" class="primary-btn">add to cart</button>
+                            {% endif %}
+                            {% endif %}
                         </div>
                         <div class="product__details__last__option">
                             <h5><span>Guaranteed Safe Checkout</span></h5>
@@ -74,7 +113,10 @@
                         </div>
                     </div>
                 </div>
+            </form>
+
             </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="product__details__tab">

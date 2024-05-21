@@ -76,12 +76,11 @@
                                 <span class="label">New</span>
                                 <ul class="product__hover">
                                     <li><a href="#"><img src="{% static "img/icon/heart.png"%}" alt=""></a></li>
-                                    <li><a href="{{product.get_url}}"><img src="{% static "img/icon/eye.png"%}" alt=""></a></li>
                                 </ul>
                             </div>
                             <div class="product__item__text">
                                 <h6>{{product.product_name}}</h6>
-                                <a href="#" class="add-cart">+ Add To Cart</a>
+                                <a href="{{product.get_url}}" class="add-cart">VIEW PRODUCT</a>
                                 <h5 class="text-warning">${{product.product_price}}</h5>
                             </div>
                         </div>

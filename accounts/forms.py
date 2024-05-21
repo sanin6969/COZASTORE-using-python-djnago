@@ -17,16 +17,26 @@ class RegistrationForm(forms.ModelForm):
     def clean(self): 
         cleaned_data=super(RegistrationForm,self).clean()
         
+        
+        # firstname and lastname validaton
+        first_name=self.cleaned_data.get('first_name')
+        last_name=self.cleaned_data.get('last_name_name')
+        if not re.match("^[a-zA-Z]*$", first_name):
+            raise forms.ValidationError(" first name Accepts only alphabetic characters.")
+        if not re.match("^[a-zA-Z]*$", last_name):
+            raise forms.ValidationError("last name Accepts only alphabetic characters.")
+        
+        # phone number validation
         phone_number = self.cleaned_data.get('phone_number')
         if not phone_number.isdigit():
             raise forms.ValidationError('Phone number should contain numbers only.')
         if len(phone_number) != 10:
             raise forms.ValidationError('Phone number should be 10 digits.')
         
-        password=cleaned_data.get('password')
-        confirm_password=cleaned_data.get('confirm_password')
         
         # Password validation 
+        password=cleaned_data.get('password')
+        confirm_password=cleaned_data.get('confirm_password')
         if len(password) < 8:
             raise forms.ValidationError('Password must be at least 8 characters long.')
         if not re.search(r'[A-Z]', password):
