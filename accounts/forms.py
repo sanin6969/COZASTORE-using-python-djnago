@@ -20,7 +20,7 @@ class RegistrationForm(forms.ModelForm):
         
         # firstname and lastname validaton
         first_name=self.cleaned_data.get('first_name')
-        last_name=self.cleaned_data.get('last_name_name')
+        last_name=self.cleaned_data.get('last_name')
         if not re.match("^[a-zA-Z]*$", first_name):
             raise forms.ValidationError(" first name Accepts only alphabetic characters.")
         if not re.match("^[a-zA-Z]*$", last_name):

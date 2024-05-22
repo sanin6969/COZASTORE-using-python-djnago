@@ -4,6 +4,8 @@ from .models import Account
 from django.contrib import messages,auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from cart.models import Cart,CartItem
+from cart.views import _cart_id
 
 # verification
 from django.contrib.sites.shortcuts import get_current_site
@@ -20,18 +22,19 @@ def register(request):
     if request.method=='POST':
         form=RegistrationForm(request.POST)
         if form.is_valid():
-            username=form.cleaned_data['username']
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            phone_number = form.cleaned_data['phone_number']
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+            username=form.cleaned_data.get('username')
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            phone_number = form.cleaned_data.get('phone_number')
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
             user = Account.objects.create_user(first_name=first_name,last_name=last_name,email=email,username=username,password=password)
             user.phone_number = phone_number
             user.save()
             
             # USER ACTIVATION
             current_site=get_current_site(request)
+            print(f'current_site: {current_site}')
             mail_subject='Please activate your account'
             message=render_to_string('verification_email.html',{
                 'user':user,
@@ -60,6 +63,21 @@ def login(request):
         
         user=auth.authenticate(email=email,password=password)
         if user is not None:
+            try:
+                print('entering try bvlock')
+                cart=Cart.objects.get(cart_id=_cart_id(request))
+                # is_cart_item_exists=CartItem.objects.filter(cart=cart).exists()
+                is_cart_item_exists=CartItem.objects.filter(cart=cart).exists()
+                print(is_cart_item_exists)
+                if is_cart_item_exists:
+                    cart_item=CartItem.objects.filter(cart=cart)
+                    
+                    for item in cart_item:
+                        item.user=user
+                        item.save()
+            except:
+                print('entering except')
+                pass
             auth.login(request,user)
             messages.success(request,'You are now logged In')
             return redirect('home')
