@@ -5,11 +5,11 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__text">
-                    <h4>Shopping Cart</h4>
+                    <h4>Order details</h4>
                     <div class="breadcrumb__links">
                         <a href="{% url "home" %}">Home</a>
-                        <a href="{% url "shop" %}">Shop</a>
-                        <span>Shopping Cart</span>
+                        <a href="{% url "shop" %}">Checkout</a>
+                        <span>Order details</span>
                     </div>
                 </div>
             </div>
@@ -23,84 +23,100 @@
     <div class="container">
         <div class="row">
             <section class="h-100 w-100" style="background-color: #eee;">
-            <div class="container h-100 py-5">
-              <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-10">
-          
-                  <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
-                </div>
-      
-                {% for cart_item in cart_items  %}
-                <div class="card rounded-3 mb-4">
-                    <div class="card-body p-4">
-                        <div class="row d-flex justify-content-between align-items-center">
-                              <div class="col-md-2 col-lg-2 col-xl-2">
-                                  <a href="{{cart_item.product.get_url}}"><img
-                            src="{{cart_item.product.product_image.url}}"
-                            class="img-fluid rounded-3">
-                        </a>
-                        </div>
-                        <div class="col-md-3 col-lg-3 col-xl-3">
-                            <p class="lead fw-normal mb-2">{{cart_item.product.product_name}}</p>
-                          <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey</p>
-                        </div>
+                <div class="container h-100 py-5">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
                         
-                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                          <a href="{% url "sub_cart" cart_item.product.id %}" class="m-2 pl-2 pr-2 border border-dark rounded">
-                              -
-                            </a>
-                          <div class="m-2 pl-3 pr-3 border border-dark rounded">
-                              {{cart_item.quantity}}
+                        <div class="col-lg-8">
+                            <div class="card m-2">
+                                <h5 class="card-header">Billing Address</h5>
+                                <div class="card-body">
+                                    
+                                    <p class="card-text mb-0"><b>Name:</b> {{order.full_name}}</p>
+                                    <p class="card-text mb-0"><b>Phone:</b> {{order.phone}}</p>
+                                    <p class="card-text mb-0"><b>Email:</b> {{order.email}}</p>
+                                    <p class="card-text mb-0"><b>Address:</b> {{order.full_address}}</p>
+                                    <p class="card-text mb-0"><b>City:</b> {{order.city}} <b>PIN:</b> {{order.pincode}}</p>
+                                    <p class="card-text mb-0"><b>State:</b> {{order.state}} <b>Country:</b> {{order.country}}</p>
+                                    {% if order.order_note %}
+                                    <p class="card-text mb-0"><b>Order Note:</b> {{order.order_note}}</p>
+                                    {% endif %}
+                                </div>
                             </div>
-                            
-                          <a href="{% url "add_cart" cart_item.product.id %}" class="m-2 pl-2 pr-2 border border-dark rounded">
-                            +
-                        </a>
-                    </div>
-                    
-                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                        <h5 class="mb-0 font-weight-bold">PRICE : ${{cart_item.product.product_price}}</h5>
-                        <h6 class="mb-0 ml-3" style="font-size: x-small;">(TOTAL : ${{cart_item.sub_total}})</h6>
-                    </div>
-                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                        <a href="{% url "del_cart" cart_item.product.id %}" class="text-danger"><i class="fa fa-close"></i></a>
+                            <div class="card m-2">
+                                <h5 class="card-header">Payment Method</h5>
+                                <div class="card-body">
+                                    
+                                    <p class="card-text">Paypal</p>
+                                   
+                                </div>
+                            </div>
+                            <div class="card m-2">
+                                <h5 class="card-header">Review Product</h5>
+                                
+                                {% for cart_item  in cart_items  %}
+                                
+                                <div class="card-body  m-2">
+                                    <div class="row border-top border-bottom">
+                                        <div class="row main align-items-center">
+                                            <div class="col-2"><img class="img-fluid p-2" src="{{cart_item.product.product_image.url}}"></div>
+                                            <div class="col">
+                                                <div class="row text-muted">Shirt</div>
+                                                <div class="row">{{cart_item.product.product_name}}</div>
+                                            </div>
+                                            <div class="col">
+                                                <a  class="m-2 pl-3 pr-3 border border-dark rounded">{{cart_item.quantity}}</a>
+                                            </div>
+                                            <div class="col ">$ {{cart_item.product.product_price}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="cart__total">
+                                <h2><b>Cart total</b></h2>
+                                <ul>
+                                    <li>Total <span>$ {{total}}</span></li>
+                                    <li>Tax 2% <span>${{tax}}</span></li>
+                                    <li>Grand Total <span>${{grand_total}}</span></li>
+                                </ul>
+                                    <div id="paypal-button-container"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
-        {% endfor %}
-    </div>
-            <div class="col-lg-4">
-                <div class="cart__total">
-                    <h6>Cart total</h6>
-                    <ul>
-                        <li>Total <span>$ {{total}}</span></li>
-                        <li>Tax 2% <span>${{tax}}</span></li>
-                        <li>Grand Total <span>${{grand_total}}</span></li>
-                    </ul>
-                    <a href="{% url "checkout" %}" class="primary-btn">Proceed to checkout</a>
-                </div>
-            </div>
-            {% else  %}
-        <div class=" w-100 card rounded-3 mb-4 ">
-            <div class="card-body p-4 ">   
-                <div class="text-center">
-                    <h2 class=" mb-2 ">NO ITEMS IN THE CART</h2>
-                    <br>
-                    <a href="{% url "shop" %}" class="primary-btn">CONTINUE SHOPPING</a>
-                  
-                </div>
-            </div>
-        </div>
-    </div>
-
-              </div>
-            </div>
-          </section>
-        </div>
-        
     </div>
 </section>
 
+
+
 {% endblock content %}
+
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PayPal JS SDK Standard Integration</title>
+  </head>
+  <body>
+    <div id="paypal-button-container"></div>
+    <p id="result-message"></p>
+    
+    <!-- Initialize the JS-SDK -->
+    <script
+      src="https://www.paypal.com/sdk/js?client-id=test&buyer- 
+      country=US&currency=USD&components=buttons&enable-funding=venmo"
+      data-sdk-integration-source="developer-studio"
+    ></script>
+    <script src="app.js"></script>
+    
+  </body>
+</html>
+

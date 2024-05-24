@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from store.views import Product
+from store.views import Product,Variation
 from .models import Cart,CartItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
@@ -13,10 +13,24 @@ def _cart_id(request):
     return cart
 
 def add_cart(request, product_id):
+    product_variation=[]
+    if request.method=='POST':
+        for item in request.POST:
+            key=item
+            value=request.POST[key]
+            
+            try:
+                variation=Variation.objects.get(product=product,variation_category__iexact=key,variation_value__iexact=value)
+                product_variation.append(variation)
+            except:
+                pass
+        
     current_user=request.user
     if current_user.is_authenticated and current_user.is_superadmin:
         messages.warning(request,"Super admins cannot add items to the cart.")
         return redirect("shop")
+    
+    
     product = Product.objects.get(id=product_id)
     
 
