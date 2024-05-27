@@ -58,8 +58,7 @@
     </div>
     <div class="product__details__content">
         <div class="container">
-            <form action="{% url 'add_cart' single_product.id %}" method="POST">
-                {% csrf_token %}
+            <form action="{% url 'add_cart' single_product.id %}" method="GET">
 
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-8">
@@ -77,22 +76,22 @@
                                 <div class="product__details__option">
                                     <span>Size:</span>
                                     <div class="product__details__option__size">
-                                        <select name="size" required>
+                                        <select name="size">
                                         <option value="">Select Size</option>
-                                        {% for i  in single_product.variation_set.sizes %}
-                                        <option value="{{i.variation_value}}">{{i.variation_value}}</option>        
-                                    {% endfor %} 
-                                         
+                                        <option value="small">Small</option>        
+                                        <option value="Medium">Medium</option>        
+                                        <option value="Large">Large</option>        
+                                        <option value="Extra_Large">Extra Large</option>        
                                     </select>
                                 </div>
                                 <span>Color:</span>
                                 <div class="product__details__option__size">
-                                    <select name="color" required>
+                                    <select name="color">
                                     <option value="">Select Color</option>
-
-                                    {% for i  in single_product.variation_set.colors %}
-                                        <option value="{{i.variation_value}}">{{i.variation_value}}</option>        
-                                    {% endfor %}       
+                                    <option value="Red">Red</option>        
+                                    <option value="Green">Green</option>        
+                                    <option value="Blue">Blue</option>        
+                                    <option value="White">White</option>        
                                 </select>
                                 </div>
                             </div>
