@@ -62,6 +62,11 @@ def login(request):
         password=request.POST.get('password')
         
         user=auth.authenticate(email=email,password=password)
+        print(user.id)
+        if user.is_superadmin:
+            return redirect('adminpage')
+        
+        
         if user is not None:
             try:
                 print('entering try bvlock')
@@ -80,6 +85,7 @@ def login(request):
                 pass
             auth.login(request,user)
             messages.success(request,'You are now logged In')
+            
             return redirect('home')
         else:
             messages.error(request,'invalid login credentials')

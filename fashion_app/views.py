@@ -1,4 +1,4 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 from store.models import Product
 from category.models import Category
 from accounts.forms import RegistrationForm

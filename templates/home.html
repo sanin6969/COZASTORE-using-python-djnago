@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="{% static "css/owl.carousel.min.css"%}" type="text/css">
     <link rel="stylesheet" href="{% static "css/slicknav.min.css"%}" type="text/css">
     <link rel="stylesheet" href="{% static "css/style.css"%}" type="text/css">
+    {% comment %} paypal script {% endcomment %}
+    
 </head>
 
 <body>
@@ -45,17 +47,42 @@
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__links">
-                                {% if user.id is  None %}
+
+                                {% if user.id == 1 %}
+                                    <a>Welcome ADMIN</a>
+                                    <a href="{% url 'adminpage' %}">ADMIN</a>
+                                     {% elif user.id is None  %}
+                                        <a>Welcome Guest</a>
+                                        <a href="{% url "login" %}">Sign in</a>
+                                        <a>|</a>
+                                        <a href="{% url "register" %}">Register</a>
+                                    {% else %}
+                                        <a>Welcome {{user.username}}</a>
+                                        <a href="{% url 'userout' %}">Logout</a>
+                                        <a>|</a>
+                                        <a href="{% url "dashboard" %}">Dashboard</a> 
+                                {% endif %}
+
+
+                                {% comment %} {% if user.id == 1%}
+                                <a>Welcome ADMIN</a>
+                                <a href="{% url 'adminpage' %}">ADMIN</a>
+                                {% endif %}
+                            
+
+                                {% if user.id is  None%}
                                 <a>Welcome Guest</a>
                                 <a href="{% url "login" %}">Sign in</a>
                                 <a>|</a>
                                 <a href="{% url "register" %}">Register</a>
+
                                 {% else %}
+
                                 <a>Welcome {{user.username}}</a>
                                 <a href="{% url 'userout' %}">Logout</a>
                                 <a>|</a>
                                 <a href="{% url "dashboard" %}">Dashboard</a>
-                                {% endif %}
+                                {% endif %} {% endcomment %}
                             </div>
                         </div>
                     </div>

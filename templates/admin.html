@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Custom styling for the navigation bar */
+    .navbar {
+      background-color: #1e272e; /* Dark background */
+      padding-top: 10px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #485460; /* Darker border */
+      border-radius: 0;
+    }
+
+    .navbar-brand {
+      color: #ffffff; /* White */
+      font-weight: bold;
+      font-size: 2.5rem;
+      text-transform: uppercase;
+    }
+
+    .navbar-nav .nav-link {
+      color: #ffffff; /* White */
+      font-size: 1.2rem;
+      margin-right: 2rem;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #ff6b81; /* Pink */
+    }
+
+    .navbar-toggler {
+      border-color: #ffffff; /* White */
+    }
+
+    .navbar-toggler-icon {
+      background-color: #ffffff; /* White */
+    }
+
+    /* Additional styling for the container */
+    .container {
+      margin-top: 20px;
+    }
+
+    /* Custom styling for the main content */
+    .main-content {
+      background-color: #f5f6fa; /* Light gray */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Shadow */
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <!-- Brand -->
+      <a class="navbar-brand" href="{% url "adminpage" %}">ADMIN</a>
+
+      <!-- Toggler button for mobile -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navbar links -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url "users" %}">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url "products" %}">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Orders</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url "logoutadmin" %}">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  {% block admin %}
+  <!-- Main Content -->
+  <div class="container main-content">
+    <h2>Welcome to the Admin Dashboard!</h2>
+    <p>This is where you manage all your administrative tasks.</p>
+    <!-- Add your main content here -->
+  </div>
+  {% endblock admin %}
+
+  <!-- Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
