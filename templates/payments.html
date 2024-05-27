@@ -1,5 +1,33 @@
 {% extends "home.html" %}
 {% block content %}
+<!-- Include the PayPal JavaScript SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+
+<script>
+    paypal.Buttons({
+        style: {
+            color: 'blue',
+            shape: 'rect',
+            label: 'pay',
+            height: 40
+        },
+        // Set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '7868' 
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                alert('Transaction completed by ' + 'uygytf' + '!');
+            });
+        }
+    }).render('#paypal-button-container'); 
+</script>
 <section class="breadcrumb-option">
     <div class="container">
         <div class="row">
@@ -91,33 +119,6 @@
     </div>
 </section>
 
-<!-- Include the PayPal JavaScript SDK -->
-<script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
 
-<script>
-    paypal.Buttons({
-        style: {
-            color: 'blue',
-            shape: 'rect',
-            label: 'pay',
-            height: 40
-        },
-        // Set up the transaction
-        createOrder: function(data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: '7868' 
-                    }
-                }]
-            });
-        },
-        onApprove: function(data, actions) {
-            return actions.order.capture().then(function(details) {
-                alert('Transaction completed by ' + 'uygytf' + '!');
-            });
-        }
-    }).render('#paypal-button-container'); 
-</script>
 {% endblock content %}
 {% comment %} details.payer.name.given_name {% endcomment %}

@@ -3,6 +3,7 @@
 <section style="background-color: #eee;">
     <div class="container py-5">
         <div class="row">
+            {% include "alert.html" %}
             <div class="col">
                 <div class="container mt-5">
                     {% for user in users %}
@@ -10,8 +11,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                                    class="rounded-circle img-fluid" style="width: 150px;">
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
                                 </div>
                                 <div class="col-md-6">
                                     <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
@@ -19,18 +19,23 @@
                                     <p class="card-text">Phone: {{user.phone_number}}</p>
                                     <p class="card-text">Date Joined: {{user.date_joined}}</p>
                                 </div>
-                                <div class="col-md-3 text-end d-flex flex-column justify-content-around">
-                                    <button class="btn btn-warning mb-2">Block</button>
-                                    <button class="btn btn-secondary">View</button>
+                                <div class="col-md-3 d-flex align-items-center justify-content-end">
+                                    <div class="btn-group" role="group">
+                                        {% if user.is_blocked %}
+                                        <a href="{% url 'blockuser' user.id %}" class="btn btn-warning mb-2">Unblock</a>
+                                        {% else %}
+                                        <a href="{% url 'blockuser' user.id %}" class="btn btn-warning mb-2">Block</a>
+                                        {% endif %}
+                                        <a href="" class="btn btn-secondary">View</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-                
             </div>
-        </div>
+            
     </div>
 </section>
                 
