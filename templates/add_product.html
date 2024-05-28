@@ -29,6 +29,25 @@
         </div>
     </div>
 </section>
+<script>
+    function generateSlug(str) {
+        return str.toString().toLowerCase()
+            .replace(/\s+/g, '-')           // Replace spaces with -
+            .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+            .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+            .replace(/^-+/, '')             // Trim - from start of text
+            .replace(/-+$/, '');            // Trim - from end of text
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const productNameField = document.querySelector('#id_product_name');
+        const slugField = document.querySelector('#id_slug');
+
+        productNameField.addEventListener('input', function() {
+            slugField.value = generateSlug(productNameField.value);
+        });
+    });
+</script>
 
 
 {% endblock %}

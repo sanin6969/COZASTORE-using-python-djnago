@@ -1,12 +1,10 @@
-from django.shortcuts import render,get_object_or_404,redirect
+from django.shortcuts import render
 from store.models import Product
-from category.models import Category
-from accounts.forms import RegistrationForm
-from accounts.models import Account
+from cart.models import CartItem
 # Create your views here.
 def home(request):
     products=Product.objects.all().filter(is_available=True)
-    context={'products':products}
+    context={'products':products,}
     return render(request,'home.html',context)
 def blog(request):
     return render(request,'blog.html')
