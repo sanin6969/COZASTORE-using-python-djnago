@@ -311,6 +311,7 @@ function getCookie(name) {
     var url         = "{% url 'payments' %}";
     var orderID     = "{{order.order_number}}"
     var payment_method = 'paypal'
+    var redirect_url="{% url "ordercomplete" %}"
      paypal.Buttons({
          style: {
              color:  'blue',
@@ -346,8 +347,11 @@ function getCookie(name) {
                            status:details.status
                        }),
                    })
-                   //.then(response => response.json())
-                   //.then(data => console.log(data));
+                   .then(response => response.json())
+                   .then(data => {
+                    window.location.href = redirect_url + '?order_number=' + data.order_number + '&payment_id=' + data.transID;
+
+                   });
                } 
             });
         }

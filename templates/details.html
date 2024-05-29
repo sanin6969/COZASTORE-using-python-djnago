@@ -71,8 +71,9 @@
                                 <li><span>Brand:</span> {{single_product.product_brand}}</li>
                             </ul>
                         </div>
+                        <div>
                             {% comment %} <p>{{single_product.product_description}}</p> {% endcomment %}
-                            <div class="product__details__option">
+                            {% comment %} <div class="product__details__option">
                                 <div class="product__details__option">
                                     <span>Size:</span>
                                     <div class="product__details__option__size">
@@ -94,7 +95,7 @@
                                     <option value="White">White</option>        
                                 </select>
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
                         </div>
                         <div class="product__details__cart__option">
                             <div class="quantity">

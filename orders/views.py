@@ -4,7 +4,11 @@ from .models import Order,Payment,OrderProduct
 from .forms import OrderForm
 import datetime
 import json
-from django.contrib import messages
+from store.models import Product
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+from django.http import JsonResponse
+
 # Create your views here.
 
 def place_order(request,total=0,quantity=0):
@@ -96,12 +100,54 @@ def payments(request):
         orderproduct.ordered=True
         orderproduct.save()
         
-    # reduce the quanntity of the sold product
-    
+        # reduce the quanntity of the sold product
+        
+        product=Product.objects.get(id=item.product_id)
+        product.product_stock-=item.quantity
+        product.save()
     # clear the cart
+    CartItem.objects.filter(user=request.user).delete()
     
     # send email to the the customer
+    mail_subject='Thank you for shopping '
+    message=render_to_string('order_recieved_email.html',{
+                'user':request.user,
+                'order':order
+              
+            })
+    to_email=request.user.email
+    send_email=EmailMessage(mail_subject,message,to=[to_email])
+    send_email.send()
     
     # send order number and paymet details back to sendData method
+    data={
+        'order_number':order.order_number,
+        'transID':payment.payment_id,
+    }
+    return JsonResponse(data)
+
+
+
+def order_complete(request):
+    order_number=request.GET.get('order_number')
+    transID=request.GET.get('payment_id')
+    try:
+        order=Order.objects.get(order_number=order_number,is_ordered=True)
+        ordered_product=OrderProduct.objects.filter(order_id=order.id)
+        sub_total=0
+        tax=0
+        for i in ordered_product:
+            sub_total+=i.product_price*i.quantity
+        payment=Payment.objects.get(payment_id=transID)
+        context={
+            'order':order,
+            'ordered_products':ordered_product,
+            'order_number':order.order_number,
+            'transId':payment.payment_id,
+            'payment':payment,
+            'subtotal':sub_total
+        }
+    except (Payment.DoesNotExist,Order.DoesNotExist):
+        return redirect(request,'home')
     
-    return render(request,'payments.html')
+    return render (request,'order_complete.html',context)
