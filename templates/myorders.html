@@ -1,0 +1,49 @@
+{% extends "home.html" %}
+{% block content %}
+
+<section style="background-color: #eee;">
+    <div class="container py-5">
+        {% comment %} <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb" class="bg-body-tertiary rounded-3 p-3 mb-4">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">User</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                    </ol>
+                </nav>
+            </div>
+        </div> {% endcomment %}
+        {% include "dashboardinclude.html" %}
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card mb-4 pt-4 pb-3">
+                    <h4 class="fw-bolder text-center p-2 "><strong>Your order history</strong></h4>
+                    <table class="table table-hover ">
+                        <thead>
+                            <tr>
+                                <th scope="col">Order #</th>
+                                <th scope="col">Billing Name</th>
+                                <th scope="col">Phone No</th>
+                                <th scope="col">Order Total</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders  %}
+                            <tr>
+                                <th scope="row">{{order.order_number}}</th>
+                                <td>{{order.full_name}}</td>
+                                <td>{{order.phone}}</td>
+                                <td>$ {{order.order_total}}</td>
+                                <td>{{order.created_at}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+</section>
+{% endblock content %}

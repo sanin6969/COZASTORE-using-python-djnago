@@ -4,7 +4,8 @@ from store.models import Product,Category
 class ProductUpdateForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = ('product_name','product_brand','product_slug','product_description','product_price','product_image','product_stock','is_available','category')
+        
     def __init__(self,*args,**kwargs):
         super(ProductUpdateForm,self).__init__(*args,**kwargs)
         for field in self.fields:

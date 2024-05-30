@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-lg-12">
+        <ul class="filter__controls">
+            <li ><a href="{% url "dashboard" %}" class="text-dark">Dashboard</a></li>
+            <li><a href="{% url "myorders" %}" class="text-dark">My Orders</a></li>
+            <li><a href="{% url "editprofile" %}" class="text-dark">Edit Profile</a></li>
+            <li><a href="{% url "changepassword" %}" class="text-dark">Change Password</a></li>
+            <div class="d-flex justify-content-end mb-3">
+                <a href="{% url "userout" %}" class="btn btn-dark">Logout</a>
+            </div>
+        </ul>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
+# from phonenumber_field.modelfields import PhoneNumberField
 # Create your models here.
 
 class MyaccountManager(BaseUserManager):
@@ -63,4 +64,16 @@ class Account(AbstractBaseUser):
     
     def has_module_perms(self,add_label):
         return True
+class UserProfile(models.Model):
+    user=models.OneToOneField(Account,on_delete=models.CASCADE)
+    address_line_1=models.CharField(blank=True,max_length=200)
+    address_line_2=models.CharField(blank=True,max_length=200)
+    profile_picture=models.ImageField(blank=True,upload_to='photos/user')
+    city=models.CharField(blank=True,max_length=20)
+    state=models.CharField(blank=True,max_length=20)
+    country=models.CharField(blank=True,max_length=20)
+    def __str__(self) -> str:
+        return self.user.first_name
     
+    def full_address(self):
+        return f'{self.address_line_1}{self.address_line_2}'

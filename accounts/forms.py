@@ -1,5 +1,5 @@
 from django import forms
-from .models import Account
+from .models import Account,UserProfile
 import re
 
 class RegistrationForm(forms.ModelForm):
@@ -39,6 +39,8 @@ class RegistrationForm(forms.ModelForm):
         confirm_password=cleaned_data.get('confirm_password')
         if len(password) < 8:
             raise forms.ValidationError('Password must be at least 8 characters long.')
+        if len(password) > 8:
+            raise forms.ValidationError('Password must be at  8 characters long.')
         if not re.search(r'[A-Z]', password):
             raise forms.ValidationError('Password must contain at least one uppercase letter.')
         if not re.search(r'\d', password):
@@ -56,5 +58,14 @@ class RegistrationForm(forms.ModelForm):
             
 
 
-  
+class Userform(forms.ModelForm):
+    class Meta:
+        model =Account
+        fields=('first_name','last_name','phone_number','email')
+# class Userprofileform(forms.ModelForm):
+#     profile_picture=forms.ImageField(required=False,error_messages={'invalid':{"imagefilesonly"}},widget=forms.FileInput)
+#     class Meta:
+#         model =UserProfile
+#         fields=('address_line_1','address_line_2','profile_picture','city','state','country')
+        
  

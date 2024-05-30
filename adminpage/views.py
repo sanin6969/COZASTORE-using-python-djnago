@@ -89,3 +89,9 @@ def edit_product(request,id):
         "form": form, 
     }
     return render(request, "add_product.html", context)
+
+def delete_Product(request, id):
+    product = Product.objects.get(id=id)
+    product.delete()
+    messages.success(request, 'Product deleted successfully.')
+    return redirect("products")
