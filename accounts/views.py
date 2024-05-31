@@ -67,6 +67,9 @@ def login(request):
         if user is not None:
             if user.is_superadmin:
                 return redirect('adminpage')
+            elif user.is_blocked:
+                messages.error(request,'You were Blocked by Admin')
+                
             else:
                 try:
                     cart = Cart.objects.get(cart_id=_cart_id(request))
@@ -193,7 +196,7 @@ def dashboard(request):
     return render(request,'dashboard/dashboard.html',context)
 
 
-
+@login_required(login_url='login')
 def my_orders(request):
     orders=Order.objects.filter(user=request.user,is_ordered=True,).order_by('-created_at')
     context={
@@ -212,7 +215,7 @@ def myorderdetails(request,order_id):
     return render(request,'dashboard/myorderdetails.html',context)
 
 
-
+@login_required(login_url='login')
 def edit_profile(request):
     # userprofile=get_object_or_404(UserProfile,user=request.user)
     if request.method=="POST":

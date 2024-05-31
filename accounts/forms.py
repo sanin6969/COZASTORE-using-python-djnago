@@ -3,13 +3,18 @@ from .models import Account,UserProfile
 import re
 
 class RegistrationForm(forms.ModelForm):
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Enter an indian number'
+        }))
     
     password=forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder':'Enter Password',
         }))
+    
     confirm_password=forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder':'Repeat Password',
         }))
+    
     
     class Meta:
         model=Account
@@ -41,9 +46,9 @@ class RegistrationForm(forms.ModelForm):
         password=cleaned_data.get('password')
         confirm_password=cleaned_data.get('confirm_password')
         if len(password) < 8:
-            raise forms.ValidationError('Password must be at least 8 characters long.')
+            raise forms.ValidationError('Password must be 8 characters long.')
         if len(password) > 8:
-            raise forms.ValidationError('Password must be at  8 characters long.')
+            raise forms.ValidationError('Password must be 8 characters long.')
         if not re.search(r'[A-Z]', password):
             raise forms.ValidationError('Password must contain at least one uppercase letter.')
         if not re.search(r'\d', password):
