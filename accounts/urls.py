@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register,login,userout,activate,dashboard,forgotpassword,resetpassword,resetpassword_verify,my_orders,edit_profile,change_password
+from .views import register,login,userout,activate,dashboard,forgotpassword,resetpassword,resetpassword_verify,my_orders,edit_profile,change_password,myorderdetails
 urlpatterns = [
      path('register',register, name='register'),
      
@@ -16,6 +16,8 @@ urlpatterns = [
      path('resetpassword',resetpassword, name='resetpassword'),
      
      path('myorders',my_orders, name='myorders'),
+     
+     path('myorderdetails/<int:order_id>/',myorderdetails, name='myorderdetails'),
      
      path('editprofile',edit_profile, name='editprofile'),
      

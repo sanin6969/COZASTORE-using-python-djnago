@@ -1,20 +1,8 @@
-{% extends "home.html" %}
-{% block content %}
+{% extends "dashboard/dashboard.html" %}
 
 <section style="background-color: #eee;">
     <div class="container py-5">
-        {% comment %} <div class="row">
-            <div class="col">
-                <nav aria-label="breadcrumb" class="bg-body-tertiary rounded-3 p-3 mb-4">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">User</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">User Profile</li>
-                    </ol>
-                </nav>
-            </div>
-        </div> {% endcomment %}
-        {% include "dashboardinclude.html" %}
+        {% block dashboard %}
 
         <div class="row">
             <div class="col-lg-12">
@@ -33,7 +21,7 @@
                         <tbody>
                             {% for order in orders  %}
                             <tr>
-                                <th scope="row">{{order.order_number}}</th>
+                                <th scope="row"><a href="{% url "myorderdetails" order.order_number %}" >{{order.order_number}}</a></th>
                                 <td>{{order.full_name}}</td>
                                 <td>{{order.phone}}</td>
                                 <td>$ {{order.order_total}}</td>
@@ -44,6 +32,6 @@
                     </table>
                 </div>
             </div>
+            {% endblock dashboard %}
         </div>
 </section>
-{% endblock content %}

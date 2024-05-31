@@ -21,7 +21,7 @@ def shop(requset,category_slug=None):
         'products':products,
         'product_count':product_count
         }
-    return render(requset,'shop.html',context)
+    return render(requset,'store/shop.html',context)
 
 def details(request,category_slug,product_slug):
     try:
@@ -36,7 +36,7 @@ def details(request,category_slug,product_slug):
        
         
     }
-    return render(request,'details.html',context)
+    return render(request,'store/details.html',context)
 
 def search(request):
     if 'keyword' in request.GET:
@@ -49,4 +49,4 @@ def search(request):
         'product_count':product_count,
         'keyword':keyword
     }
-    return render(request,'shop.html',context)
+    return render(request,'store/shop.html',context)

@@ -3,10 +3,11 @@ from accounts.models import Account
 from store.models import Category,Product
 from django.contrib import messages,auth
 from .forms import ProductUpdateForm
+from orders.models import Order,OrderProduct
 # Create your views here.
 def adminpage(request):
     
-    return render(request,'admin.html')
+    return render(request,'adminpage/admin.html')
 
 
 # USERS 
@@ -29,7 +30,7 @@ def users(request):
     context = {
             'users': users,
         }
-    return render(request,'users.html',context)
+    return render(request,'adminpage/users.html',context)
 
 def logoutadmin(request):
     auth.logout(request)
@@ -54,7 +55,7 @@ def products(request,category_slug=None):
         'products':products,
         'product_count':product_count
         }
-    return render(request,'products.html',context)
+    return render(request,'adminpage/products.html',context)
 
 def add_product(request):
     if request.method== "POST":
@@ -70,7 +71,7 @@ def add_product(request):
         'form':form
     }
 
-    return render(request,'add_product.html',context)
+    return render(request,'adminpage/add_product.html',context)
 
 def edit_product(request,id):
     product=Product.objects.get(id=id)
@@ -88,10 +89,37 @@ def edit_product(request,id):
     context = {
         "form": form, 
     }
-    return render(request, "add_product.html", context)
+    return render(request, "adminpage/add_product.html", context)
 
 def delete_Product(request, id):
     product = Product.objects.get(id=id)
     product.delete()
     messages.success(request, 'Product deleted successfully.')
     return redirect("products")
+
+def orders(request):
+    
+    orders = Order.objects.all().order_by('-created_at')
+ 
+    context = {
+        "orders": orders,
+    
+    }
+    return render(request, "adminpage/orders.html", context)
+
+def orderdetails(request,id):
+    order = Order.objects.get(id=id)
+    details = OrderProduct.objects.filter(order=order)
+    print(f"Details: {details}")
+    ordered_products = OrderProduct.objects.filter(order_id=order.id)
+    subtotal = 0
+    for i in ordered_products:
+        subtotal += i.product_price * i.quantity
+    context = {
+        "details" : details,
+        "order"   : order,
+        'ordered_products' : ordered_products,
+        'subtotal' : subtotal,
+        }
+    
+    return render(request,'adminpage/orderdetails.html',context)

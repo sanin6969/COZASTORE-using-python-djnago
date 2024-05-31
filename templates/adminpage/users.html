@@ -1,4 +1,4 @@
-{% extends "admin.html" %}
+{% extends "adminpage/admin.html" %}
 {% block admin %}
 <section style="background-color: #eee;">
     <div class="container py-5">
@@ -26,7 +26,6 @@
                                         {% else %}
                                         <a href="{% url 'blockuser' user.id %}" class="btn btn-warning mb-2">Block</a>
                                         {% endif %}
-                                        <a href="" class="btn btn-secondary">View</a>
                                     </div>
                                 </div>
                             </div>

@@ -1,12 +1,12 @@
 from django.shortcuts import render,redirect
 from .forms import RegistrationForm,Userform
-from .models import Account,UserProfile
+from .models import Account
 from django.contrib import messages,auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from cart.models import Cart,CartItem
 from cart.views import _cart_id
-from orders.models import Order
+from orders.models import Order,OrderProduct
 from django.shortcuts import get_object_or_404
 # verification
 from django.contrib.sites.shortcuts import get_current_site
@@ -37,7 +37,7 @@ def register(request):
             current_site=get_current_site(request)
             print(f'current_site: {current_site}')
             mail_subject='Please activate your account'
-            message=render_to_string('verification_email.html',{
+            message=render_to_string('Accounts/verification_email.html',{
                 'user':user,
                 'domain':current_site,
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
@@ -54,45 +54,42 @@ def register(request):
     context = {
         'form' : form,
     }
-    return render(request,'register.html',context)
+    return render(request,'Accounts/register.html',context)
 
 
 def login(request):
-    if request.method=='POST':
-        email=request.POST.get('email')
-        password=request.POST.get('password')
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
         
-        user=auth.authenticate(email=email,password=password)
-        print(user.id)
-        if user.is_superadmin:
-            return redirect('adminpage')
-        
+        user = auth.authenticate(email=email, password=password)
         
         if user is not None:
-            try:
-                print('entering try bvlock')
-                cart=Cart.objects.get(cart_id=_cart_id(request))
-                # is_cart_item_exists=CartItem.objects.filter(cart=cart).exists()
-                is_cart_item_exists=CartItem.objects.filter(cart=cart).exists()
-                print(is_cart_item_exists)
-                if is_cart_item_exists:
-                    cart_item=CartItem.objects.filter(cart=cart)
+            if user.is_superadmin:
+                return redirect('adminpage')
+            else:
+                try:
+                    cart = Cart.objects.get(cart_id=_cart_id(request))
+                    is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()
                     
-                    for item in cart_item:
-                        item.user=user
-                        item.save()
-            except:
-                print('entering except')
-                pass
-            auth.login(request,user)
-            messages.success(request,'You are now logged In')
-            
-            return redirect('home')
+                    if is_cart_item_exists:
+                        cart_items = CartItem.objects.filter(cart=cart)
+                        
+                        for item in cart_items:
+                            item.user = user
+                            item.save()
+                except Cart.DoesNotExist:
+
+                    pass
+                
+                auth.login(request, user)
+                messages.success(request, 'You are now logged in')
+                return redirect('home')
         else:
-            messages.error(request,'invalid login credentials')
-            return redirect('login')     
+            messages.error(request, 'Invalid login credentials')
+            return redirect('login')
     
-    return render(request,'login.html')
+    return render(request, 'Accounts/login.html')
 
 
 @login_required(login_url='login')
@@ -130,7 +127,7 @@ def forgotpassword(request):
             # reset password 
             current_site=get_current_site(request)
             mail_subject='Please reset your pasword'
-            message=render_to_string('reset_password.html',{
+            message=render_to_string('Accounts/reset_password.html',{
                 'user':user,
                 'domain':current_site,
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
@@ -145,7 +142,7 @@ def forgotpassword(request):
         else:
             messages.error(request,'Account does not exist')
             return redirect('forgotpassword')
-    return render(request,'forgotpassword.html')
+    return render(request,'Accounts/forgotpassword.html')
 
 
 
@@ -159,7 +156,7 @@ def resetpassword_verify(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         request.session['uid'] = uid
         messages.success(request, 'Please reset your password')
-        return render(request, 'resetpassword.html')
+        return render(request, 'Accounts/resetpassword.html')
     else:
         messages.error(request, 'This link is expired')
         return redirect('forgotpassword')
@@ -181,7 +178,7 @@ def resetpassword(request):
             messages.error(request,'Password does not match')
             return redirect('resetpassword')
     else:
-        return render(request,'resetpassword.html')
+        return render(request,'Accounts/resetpassword.html')
     
     
     
@@ -193,13 +190,28 @@ def dashboard(request):
     context={
         'orders_count':orders_count
     }
-    return render(request,'dashboard.html',context)
+    return render(request,'dashboard/dashboard.html',context)
+
+
+
 def my_orders(request):
     orders=Order.objects.filter(user=request.user,is_ordered=True,).order_by('-created_at')
     context={
         'orders':orders
     }
-    return render(request,'myorders.html',context)
+    return render(request,'dashboard/myorders.html',context)
+
+
+def myorderdetails(request,order_id):
+    order_detail=OrderProduct.objects.filter(order__order_number=order_id)
+    order=Order.objects.get(order_number=order_id)
+    context={
+        'order_detail':order_detail,
+        'order':order
+    }
+    return render(request,'dashboard/myorderdetails.html',context)
+
+
 
 def edit_profile(request):
     # userprofile=get_object_or_404(UserProfile,user=request.user)
@@ -219,7 +231,7 @@ def edit_profile(request):
     }
             
         
-    return render(request,'editprofile.html',context)
+    return render(request,'dashboard/editprofile.html',context)
 
 @login_required(login_url='login')
 def change_password(request):
@@ -242,4 +254,4 @@ def change_password(request):
         else:
             messages.error(request,'Password does not match')
             return redirect('changepassword')
-    return render (request,'changepassword.html')
+    return render (request,'dashboard/changepassword.html')

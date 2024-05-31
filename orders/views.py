@@ -64,7 +64,7 @@ def place_order(request,total=0,quantity=0):
                 'grand_total':grand_total,
                 'total':total
             }
-            return render(request,'payments.html',context)
+            return render(request,'orders/payments.html',context)
     else:
         return redirect('checkout')  
      
@@ -110,7 +110,7 @@ def payments(request):
     
     # send email to the the customer
     mail_subject='Thank you for shopping '
-    message=render_to_string('order_recieved_email.html',{
+    message=render_to_string('orders/order_recieved_email.html',{
                 'user':request.user,
                 'order':order
               
@@ -150,4 +150,4 @@ def order_complete(request):
     except (Payment.DoesNotExist,Order.DoesNotExist):
         return redirect(request,'home')
     
-    return render (request,'order_complete.html',context)
+    return render (request,'orders/order_complete.html',context)

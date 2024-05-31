@@ -3,12 +3,14 @@ from .models import Account,UserProfile
 import re
 
 class RegistrationForm(forms.ModelForm):
+    
     password=forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder':'Enter Password',
         }))
     confirm_password=forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder':'Repeat Password',
         }))
+    
     class Meta:
         model=Account
         fields=['first_name','last_name','phone_number','email','password','username']
@@ -28,6 +30,7 @@ class RegistrationForm(forms.ModelForm):
         
         # phone number validation
         phone_number = self.cleaned_data.get('phone_number')
+        
         if not phone_number.isdigit():
             raise forms.ValidationError('Phone number should contain numbers only.')
         if len(phone_number) != 10:
