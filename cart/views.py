@@ -13,14 +13,14 @@ def _cart_id(request):
     return cart
 
 def add_cart(request, product_id):
-    if request.method=='POST':
-        color=request.POST['color']
-        size=request.POST['size']
-        print(color,size)
+    # if request.method=='POST':
+    #     color=request.POST['color']
+    #     size=request.POST['size']
+    #     print(color,size)
         
     current_user=request.user
     if current_user.is_authenticated and current_user.is_superadmin:
-        messages.warning(request,"Super admins cannot add items to the cart.")
+        messages.warning(request,"admins cannot add items to the cart.")
         return redirect("shop")
     product = Product.objects.get(id=product_id)
     
@@ -39,7 +39,10 @@ def add_cart(request, product_id):
             cart_items = CartItem.objects.filter(product=product,user=current_user)
             for item in cart_items:
                 item.quantity += 1
-                item.save()
+                if item.product.product_stock<item.quantity:
+                    messages.error(request,'Product is not available for this quantity')
+                else:
+                    item.save()
         
         else:
             cart_item = CartItem.objects.create(
@@ -67,7 +70,10 @@ def add_cart(request, product_id):
             cart_items = CartItem.objects.filter(product = product,cart=cart)
             for item in cart_items:
                 item.quantity += 1
-                item.save()
+                if item.product.product_stock<item.quantity:
+                    messages.error(request,'Product is not available for this quantity')
+                else:
+                    item.save()
 
         else:
             cart_item = CartItem.objects.create(
@@ -93,19 +99,21 @@ def add_cart(request, product_id):
     
     # return redirect('cart')
 
-def sub_cart(request,product_id):
-   
-    product=get_object_or_404(Product,id=product_id)
+def sub_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    
     if request.user.is_authenticated:
-        cart_item=CartItem.objects.get(product=product,user=request.user)
+        cart_item = get_object_or_404(CartItem, product=product, user=request.user)
     else:
-        cart=Cart.objects.get(cart_id=_cart_id(request))
-        cart_item=CartItem.objects.get(product=product,cart=cart)
-    if cart_item.quantity>1:
-        cart_item.quantity-=1
+        cart = get_object_or_404(Cart, cart_id=_cart_id(request))
+        cart_item = get_object_or_404(CartItem, product=product, cart=cart)
+    
+    if cart_item.quantity > 1:
+        cart_item.quantity -= 1
         cart_item.save()
     else:
         cart_item.delete()
+        messages.success(request, 'Product removed from the cart.')
     
     return redirect('cart')
 

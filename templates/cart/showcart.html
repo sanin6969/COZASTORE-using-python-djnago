@@ -25,10 +25,11 @@
     <div class="container">
         <div class="row">
             <section class="h-100 w-100" style="background-color: #eee;">
-            <div class="container h-100 py-5">
-              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="container h-100 py-5">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-10">
           
+                    {% include "alert.html" %}
                   <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
                 </div>
@@ -53,18 +54,19 @@
                           {% comment %} <p><span class="text-muted">Size: </span> <span class="text-muted">Color: </span>Grey</p> {% endcomment %}
                         </div>
                         
-                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                          <a href="{% url "sub_cart" cart_item.product.id %}" class="m-2 pl-2 pr-2 border border-dark rounded">
-                              -
-                            </a>
-                          <div class="m-2 pl-3 pr-3 border border-dark rounded">
-                              {{cart_item.quantity}}
+                        <div class="cart-item">
+                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                <a href="{% url 'sub_cart' cart_item.product.id %}" class="m-2 pl-2 pr-2 border border-dark rounded minus-button">
+                                    -
+                                </a>
+                                <div class="m-2 pl-3 pr-3 border border-dark rounded">
+                                    {{ cart_item.quantity }}
+                                </div>
+                                <a href="{% url 'add_cart' cart_item.product.id %}" class="m-2 pl-2 pr-2 border border-dark rounded">
+                                    +
+                                </a>
                             </div>
-                            
-                          <a href="{% url "add_cart" cart_item.product.id %}" class="m-2 pl-2 pr-2 border border-dark rounded">
-                            +
-                        </a>
-                    </div>
+                        </div>
                     
                     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                         <h5 class="mb-0 font-weight-bold">PRICE : ${{cart_item.product.product_price}}</h5>

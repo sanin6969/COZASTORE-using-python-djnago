@@ -3,6 +3,8 @@
 <html lang="zxx">
 
 <head>
+    {% block opengraph %}
+    {% endblock opengraph %}
     <meta charset="UTF-8">
     <meta name="description" content="Male_Fashion Template">
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
@@ -23,6 +25,7 @@
     <link rel="stylesheet" href="{% static "css/owl.carousel.min.css"%}" type="text/css">
     <link rel="stylesheet" href="{% static "css/slicknav.min.css"%}" type="text/css">
     <link rel="stylesheet" href="{% static "css/style.css"%}" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {% comment %} paypal script {% endcomment %}
     
 </head>
@@ -106,17 +109,19 @@
                     <div class="header__nav__option">
                         {% comment %} <a href="#" class="search-switch"><img src="{% static "img/icon/search.png" %}" alt=""></a> {% endcomment %}
                         {% comment %} <a href="#"><img src="{% static "img/icon/user.png" %}" alt=""></a> {% endcomment %}
-                        {% comment %} <a href="#"><img src="{% static "img/icon/heart.png" %}" alt=""></a> {% endcomment %}
+                        {% comment %} <a href="#"></a> {% endcomment %}
+                        <a href="{% url "cart" %}"> <img src="{% static "img/icon/heart.png" %}" alt=""></i><span class="text-warning bg-danger p-1 rounded-circle ml-2">{{cart_count}}</span></a>
                         <a href="{% url "cart" %}"> <i class="fa fa-shopping-cart" style="font-size:28px;color:black;"></i><span class="text-warning bg-danger p-1 rounded-circle ml-2">{{cart_count}}</span></a>
                     </div>
                 </div>
             </div>
         </div>
     </header>
-    {% include "alert.html" %}
+    
     <!-- Header Section End -->
     {% block content %}
     <!-- Hero Section Begin -->
+    {% include "alert.html" %}
     <section class="hero">
         <div class="hero__slider owl-carousel">
             <div class="hero__items set-bg" data-setbg="{% static "img/hero/hero-1.jpg" %}">
@@ -215,7 +220,7 @@
                         <div class="product__item__pic set-bg" data-setbg="{{product.product_image.url}}">
                             <span class="label">New</span>
                             <ul class="product__hover">
-                                {% comment %} <li><a href="#"><img src="{% static "img/icon/heart.png"%}" alt=""></a></li> {% endcomment %}
+                                <li><a href="#"><img src="{% static "img/icon/heart.png"%}" alt=""></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
@@ -389,6 +394,40 @@
         </div>
     </div>
     <!-- Search End -->
+    <!-- minus button-->
+    <script>
+        document.querySelectorAll('.minus-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                var currentQuantity = parseInt(this.nextElementSibling.innerText.trim());
+                if (currentQuantity <= 1) {
+                    var result = confirm('Are you sure you want to remove this product from the cart?');
+                    if (result) {
+                        window.location.href = this.href;
+                    }
+                } else {
+                    window.location.href = this.href;
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            setTimeout(function() {
+                $("#message").fadeOut('slow');
+            }, 3000);
+        });
+    </script>
+    <!-- minus button end-->
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $("#message").fadeOut('slow');
+            }, 2000);
+        });
+    </script>
     
     <!-- Js Plugins -->
     <script src="https://www.paypal.com/sdk/js?client-id=test&buyer-country=US&currency=USD&components=buttons&enable-funding=venmo"data-sdk-integration-source="developer-studio"></script>

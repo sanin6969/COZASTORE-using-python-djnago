@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse
 from .models import Product,Category
 from django.shortcuts import render,get_object_or_404
 from cart .models import CartItem
@@ -30,9 +31,12 @@ def details(request,category_slug,product_slug):
         in_cart=CartItem.objects.filter(cart__cart_id=_cart_id(request),product=single_product).exists()
     except Exception as e:
         raise e
+    product_url = request.build_absolute_uri(reverse('product_detail', args=[category_slug, product_slug]))
+    
     context={
         'single_product':single_product,
         "in_cart":in_cart,
+        "product_url":product_url,
        
         
     }

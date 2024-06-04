@@ -29,6 +29,7 @@ def adminpage(request):
     orders = Order.objects.all()
     for order in orders:
         Total_income += order.order_total
+        Total_income=round(Total_income,2)
         total_orders += 1
         user_id = order.user.id
         if user_id in orders_data:
