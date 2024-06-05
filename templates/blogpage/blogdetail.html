@@ -1,0 +1,53 @@
+{% extends "home.html" %}
+{% load static %}
+{% block content %}
+{% if '1' in request.path %}
+<section class="breadcrumb-blog set-bg mb-5" data-setbg="{% static "img/blog/blog-1.jpg" %}">
+{% elif '2' in request.path %}
+<section class="breadcrumb-blog set-bg mb-5" data-setbg="{% static "img/blog/blog-2.jpg" %}">
+    {% elif '3' in request.path %}
+    <section class="breadcrumb-blog set-bg mb-5" data-setbg="{% static "img/blog/blog-3.jpg" %}">
+        {% elif '4' in request.path %}
+        <section class="breadcrumb-blog set-bg mb-5" data-setbg="{% static "img/blog/blog-4.jpg" %}">
+            {% elif '5' in request.path %}
+            <section class="breadcrumb-blog set-bg mb-5" data-setbg="{% static "img/blog/blog-5.jpg" %}">
+                {% elif '6' in request.path %}
+                <section class="breadcrumb-blog set-bg mb-5" data-setbg="{% static "img/blog/blog-6.jpg" %}">
+{% endif %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Our Blog</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="col-lg-12 col-md-6 col-sm-6">
+    <div class="blog__item">
+        <div class="blog__item__text">
+            {% if '1' in request.path %}
+    <h1>What Curling Irons Are The Best Ones</h1>
+    {% elif '2' in request.path %}
+    <h1>Eternity Bands Do Last Forever</h1>
+    
+        {% elif '3' in request.path %}
+        <h1>The Health Benefits Of Sunglasses</h1>
+        
+            {% elif '4' in request.path %}
+            <h1>Aiming For Higher The Mastopexy</h1>
+            
+                {% elif '5' in request.path %}
+                <h1>Wedding Rings A Gift For A Lifetime</h1>
+                
+                    {% elif '6' in request.path %}
+                    <h1>The Different Methods Of Hair Removal</h1>
+                
+{% endif %}
+            <br>
+            <p>{% lorem 9 b random %}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

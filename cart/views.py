@@ -31,9 +31,7 @@ def add_cart(request, product_id):
         except Cart.DoesNotExist:
             cart = Cart.objects.create(cart_id=_cart_id(request))
             cart.save()
-        is_cart_item_exists = CartItem.objects.filter(
-            product = product,user=current_user
-        ).exists()
+        is_cart_item_exists = CartItem.objects.filter(product = product,user=current_user).exists()
 
         if is_cart_item_exists:
             cart_items = CartItem.objects.filter(product=product,user=current_user)
@@ -43,14 +41,8 @@ def add_cart(request, product_id):
                     messages.error(request,'Product is not available for this quantity')
                 else:
                     item.save()
-        
         else:
-            cart_item = CartItem.objects.create(
-                product = product,
-                quantity = 1,
-                user = current_user,
-                cart = cart,
-        )
+            cart_item = CartItem.objects.create(product = product,quantity = 1,user = current_user,cart = cart,)
             cart_item.save()
         return redirect('cart')
 
@@ -62,9 +54,7 @@ def add_cart(request, product_id):
             cart = Cart.objects.create(cart_id = _cart_id(request))
         cart.save()
 
-        is_cart_item_exists = CartItem.objects.filter(
-            product = product,cart = cart
-        ).exists()
+        is_cart_item_exists = CartItem.objects.filter(product = product,cart = cart).exists()
 
         if is_cart_item_exists:
             cart_items = CartItem.objects.filter(product = product,cart=cart)
@@ -76,11 +66,7 @@ def add_cart(request, product_id):
                     item.save()
 
         else:
-            cart_item = CartItem.objects.create(
-                product = product,
-                quantity = 1,
-                cart = cart,
-            )
+            cart_item = CartItem.objects.create(product = product,quantity = 1,cart = cart,)
             cart_item.save()
         return redirect("cart")
     # try:

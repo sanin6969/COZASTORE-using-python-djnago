@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class=" col-md-6 text-center mt-5">
-                    <form action="{% url 'add_cart' single_product.id %}" method="GET">
+             
                     <h4 class="font-weight-bold">{{single_product.product_name}}</h4>
                     <br>
                     <h4>$&nbsp;<span class="font-weight-bold">{{single_product.product_price}}</span> only</h4>
@@ -49,7 +49,14 @@
                         {% if in_cart %}
                         <a href="{% url 'cart' %}" class="primary-btn">Added to cart<span>✔️</span></a>
                         {% else %}
-                        <button type="submit" class="primary-btn">add to cart</button>
+                        <a href="{% url 'add_cart' single_product.id %}" class="primary-btn">add to cart</a>
+                        {% endif %}
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        {% if in_wishlist %}
+                        <a href="{% url 'wishlist' %}" class="btn btn-danger">Added to  wishlist</a>
+                        {% else %}
+                        <a href="{% url 'add_wish' single_product.id %}" class="primary-btn">Add to WishList</a>
                         {% endif %}
                         {% endif %}
                     </div>  
@@ -61,7 +68,7 @@
                         <h5><span>Guaranteed Safe Checkout</span></h5>
                         <img src="{% static "img/shop-details/details-payment.png" %}" alt="">
                     </div>
-                    </form>
+                    
                 </div>
                 
             </div>

@@ -40,10 +40,11 @@
                                     <div class="well">
                                         <ul class="list-unstyled mb0">
                                             <li><strong>Order No :</strong> {{order.order_number}}</li>
-                                            <li><strong>Transaction ID :</strong> {{order_detail.payment.payment_id}}
+                                            {% comment %} <li><strong>Transaction ID :</strong> {{order_detail.payment.payment_id}} {% endcomment %}
                                             </li>
                                             <li><strong>Order Date:</strong> {{order.created_at}}</li>
-                                            <li><strong>Status:</strong> {{order_detail.payment.status}}</li>
+                                            {% comment %} <li><strong>Status:</strong> {{order_detail.payment.status}}</li> {% endcomment %}
+                                            
                                         </ul>
                                     </div>
                                 </div>
@@ -86,11 +87,12 @@
                                         </table>
                                     </div>
                                 </div>
-
+                                
                             </div>
                             <!-- col-lg-12 end here -->
                         </div>
                     </div>
+                    <a href="" class="btn btn-danger mb-2">CANCEL</a>
                 </div>
                 {% endblock dashboard %}
             </div>

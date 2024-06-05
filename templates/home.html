@@ -110,7 +110,7 @@
                         {% comment %} <a href="#" class="search-switch"><img src="{% static "img/icon/search.png" %}" alt=""></a> {% endcomment %}
                         {% comment %} <a href="#"><img src="{% static "img/icon/user.png" %}" alt=""></a> {% endcomment %}
                         {% comment %} <a href="#"></a> {% endcomment %}
-                        <a href="{% url "cart" %}"> <img src="{% static "img/icon/heart.png" %}" alt=""></i><span class="text-warning bg-danger p-1 rounded-circle ml-2">{{cart_count}}</span></a>
+                        <a href="{% url "wishlist" %}"> <img src="{% static "img/icon/heart.png" %}" alt=""></i></a>
                         <a href="{% url "cart" %}"> <i class="fa fa-shopping-cart" style="font-size:28px;color:black;"></i><span class="text-warning bg-danger p-1 rounded-circle ml-2">{{cart_count}}</span></a>
                     </div>
                 </div>
@@ -220,7 +220,7 @@
                         <div class="product__item__pic set-bg" data-setbg="{{product.product_image.url}}">
                             <span class="label">New</span>
                             <ul class="product__hover">
-                                <li><a href="#"><img src="{% static "img/icon/heart.png"%}" alt=""></a></li>
+                                {% comment %} <li><a href="#"><img src="{% static "img/icon/heart.png"%}" alt=""></a></li> {% endcomment %}
                             </ul>
                         </div>
                         <div class="product__item__text">

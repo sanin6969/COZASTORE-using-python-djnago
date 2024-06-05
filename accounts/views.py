@@ -214,7 +214,9 @@ def myorderdetails(request,order_id):
     }
     return render(request,'dashboard/myorderdetails.html',context)
 
-
+def cancel_product(request,order_id):
+    order_detail=OrderProduct.objects.filter(order__order_number=order_id)
+    
 @login_required(login_url='login')
 def edit_profile(request):
     # userprofile=get_object_or_404(UserProfile,user=request.user)
