@@ -156,7 +156,10 @@ ol {
 }
 
 /* buttons */
-
+.error-message {
+    color: red;
+    font-weight: bold;
+}
 .primary-btn {
 	display: inline-block;
 	font-size: 13px;

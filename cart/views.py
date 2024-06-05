@@ -114,14 +114,17 @@ def delete_cart(request,product_id):
     return redirect('cart')
 
 
+from django.core.exceptions import ObjectDoesNotExist
+
 def cart(request, total=0, quantity=0, cart_items=None):
     try:
-        tax=0
-        grand_total=0
+        tax = 0
+        grand_total = 0
+        product_stock_issues = []
+        
         if request.user.is_authenticated:
             cart_items = CartItem.objects.filter(user=request.user, is_active=True)
-            print('authencated')
-
+            print('authenticated')
         else:
             cart = Cart.objects.get(cart_id=_cart_id(request)) 
             cart_items = CartItem.objects.filter(cart=cart, is_active=True)
@@ -131,8 +134,12 @@ def cart(request, total=0, quantity=0, cart_items=None):
             total += (cart_item.product.product_price * cart_item.quantity) 
             quantity += cart_item.quantity
             
-        tax=(2.5*total)/100
-        grand_total=total + tax
+            # Check product stock
+            if cart_item.quantity > cart_item.product.product_stock:
+                product_stock_issues.append(cart_item.product)
+
+        tax = (2.5 * total) / 100
+        grand_total = total + tax
     except ObjectDoesNotExist:
         pass
 
@@ -140,10 +147,12 @@ def cart(request, total=0, quantity=0, cart_items=None):
         'total': total,
         'quantity': quantity,
         'cart_items': cart_items,
-        'tax':tax,
-        'grand_total':grand_total
+        'tax': tax,
+        'grand_total': grand_total,
+        'product_stock_issues': product_stock_issues  
     }
     return render(request, 'cart/showcart.html', context)
+
 
 
 @login_required(login_url='login')
@@ -152,6 +161,7 @@ def checkout(request,total=0, quantity=0, cart_items=None):
         tax=0
         grand_total=0
         if request.user.is_authenticated:
+            
             cart_items = CartItem.objects.filter(user=request.user, is_active=True)
             print('authencated')
         else:

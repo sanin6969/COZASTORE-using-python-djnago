@@ -87,8 +87,21 @@
                         <li>Total <span>$ {{total}}</span></li>
                         <li>Tax 2% <span>${{tax}}</span></li>
                         <li>Grand Total <span>${{grand_total}}</span></li>
+
                     </ul>
-                    <a href="{% url "checkout" %}" class="primary-btn">Proceed to checkout</a>
+                    {% for cart_item in cart_items   %}
+                    {% if cart_item.product in product_stock_issues %}
+                            <div class="error-message text-danger">There is no enough stock available for {{ cart_item.product.product_name }}.</div>
+                    {% endif %}
+                    {% endfor %}
+                    <br>
+                    <div class="text-center">
+                        {% if product_stock_issues %}
+                        <button class="primary-btn" disabled >Proceed to checkout</button>
+                        {% else %}
+                        <a href="{% url "checkout" %}" class="primary-btn">Proceed to checkout</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
             {% else  %}

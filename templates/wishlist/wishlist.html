@@ -52,8 +52,11 @@
                      <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                         <a href="{% url "delete_wish" wish_item.product.id%}" class="text-danger"><i class="fa fa-close"></i></a>
                     </div>
-
+                    {% if wish_item.product.product_stock <= 0 %}
+                    <a href="#" class="btn btn-danger mb-2">Out of stock</a>   
+                    {% else %}
                     <a href="{% url "add_cart" wish_item.product.id %}" class="btn btn-dark mb-2">Add to cart</a>   
+                    {% endif %}
                 </div>
             </div>
         </div>

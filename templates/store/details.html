@@ -41,7 +41,9 @@
                     <h6><span>Brand:</span> {{single_product.product_brand}}</h6>
                     
                     <div class="m-5">  
-                        <h5><span>Only <span class="text-danger">{{single_product.product_stock}}&nbsp;</span>product left</span></h5>
+                        {% if single_product.product_stock %}
+                        <h5> Hurry up!! &nbsp<span>Only <span class="text-danger">{{single_product.product_stock}}&nbsp;</span>product left</span></h5>
+                        {% endif %}
                         <br>
                         {% if single_product.product_stock <= 0 %} 
                         <a href="#"class="btn btn-danger">OUT OF STOCK</a>
