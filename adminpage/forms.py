@@ -15,5 +15,10 @@ class ProductUpdateForm(forms.ModelForm):
 class CategoryUpdateForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = "__all__"
+        fields = ('category_name','slug','category_image')
+        
+    def __init__(self,*args,**kwargs):
+        super(CategoryUpdateForm,self).__init__(*args,**kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class']='form-control'
     

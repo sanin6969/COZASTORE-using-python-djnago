@@ -9,14 +9,8 @@
 
 <!-- Contact Section Begin -->
 <section class="contact spad">
-    {% if form.is_valid %}
-  <p class="alert alert-success">Your message has been sent successfully!</p>
-{% else %}
-  {% for error in form.errors %}
-    <p class="alert alert-danger">{{ error }}</p>
-  {% endfor %}
-{% endif %}
     <div class="container">
+        {% include "alert.html" %}
         <div class="row">
             <div class="col-lg-6 col-md-6">
                 <div class="contact__text">

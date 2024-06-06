@@ -64,9 +64,9 @@
                     </div>  
 
                     <div class="mt-10">
-                        <a href="https://api.whatsapp.com/send?text=Take a look at this {{ single_product.product_name }}%0Aonly for ${{ single_product.product_price }} at COZASTORE %0Ahttp://127.0.0.1:8000/{{ product_url }}" target="_blank">
+                        <button class='btn btn-success p-2 hover text-white'><a href="https://api.whatsapp.com/send?text=Take a look at this {{ single_product.product_name }}%0Aonly for ${{ single_product.product_price }} at COZASTORE %0A{{ product_url }}" target="_blank">
                             Share on WhatsApp
-                        </a>
+                        </a></button>
                         <h5><span>Guaranteed Safe Checkout</span></h5>
                         <img src="{% static "img/shop-details/details-payment.png" %}" alt="">
                     </div>

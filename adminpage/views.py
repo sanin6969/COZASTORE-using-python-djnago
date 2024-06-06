@@ -2,11 +2,11 @@ from django.shortcuts import render,redirect,get_object_or_404
 from accounts.models import Account 
 from store.models import Category,Product
 from django.contrib import messages,auth
-from .forms import ProductUpdateForm
+from .forms import ProductUpdateForm,CategoryUpdateForm
 from orders.models import Order,OrderProduct
 # Create your views here.
 def adminpage(request):
-    # Initialize variables
+
     Total_income = 0
     total_products = 0
     out_of_stock = 0
@@ -15,19 +15,17 @@ def adminpage(request):
     total_cancel = 0
     orders_data = {}
 
-    # Calculate total users
+
     total_users = Account.objects.count()
 
-    # Calculate out of stock products
+
     products_available = Product.objects.filter(is_available=True)
     for item in products_available:
         if item.product_stock <= 0:
             out_of_stock += 1
 
-    # Calculate total products in store
     total_products = Product.objects.filter(is_available=True).count()
 
-    # Calculate total orders and cancellations
     orders = Order.objects.all()
     for order in orders:
         Total_income += order.order_total
@@ -163,6 +161,52 @@ def delete_Product(request, id):
     return redirect("products")
 
 
+# CATEGORY
+def category(request):
+    categories = Category.objects.all().order_by("id")
+
+    context = {"categories": categories}
+    return render(request,'adminpage/category.html',context)
+
+def add_category(request):
+    if request.method == "POST":
+        form = CategoryUpdateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Category added successfully.')
+            return redirect("category")
+    else:
+        form = CategoryUpdateForm()
+
+    context = {
+        "form": form,
+    }
+    return render(request, "adminpage/add_category.html", context)
+
+def edit_category(request, slug):
+    category = Category.objects.get(slug=slug)
+
+    if request.method == "POST":
+        print(request.POST)
+        form = CategoryUpdateForm(request.POST, request.FILES, instance=category)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Category edited successfully.')
+            return redirect("category")
+    else:
+        form = CategoryUpdateForm(instance=category)
+
+    context = {
+        "form": form,
+    }
+    return render(request, "adminpage/add_category.html", context)
+
+
+def delete_category(request, slug):
+    category = Category.objects.get(slug=slug)
+    category.delete()
+    messages.success(request, 'Category deleted successfully.')
+    return redirect("category")
 # ORDERS
 def orders(request):
     

@@ -231,16 +231,41 @@ def cancel_order(request, order_id):
    
             # income refunded
             Order_total=order.order_total
+            
             print('Before',Order_total)
+            
             tax=item.order.tax
+            
             print('tax',tax)
-            Order_total-=((item.product_price*item.quantity)+tax)
+            
+            print('amount of product',(item.product_price*item.quantity))
+            
+            Order_total-=((item.product_price*item.quantity))
+            
+            print( 'before tax',Order_total)
+            
+            
             print('BEFORE SAVE ',Order_total)
+            
             order.order_total = Order_total
+            
             order.save()
+            
             print('after',order.order_total)
             
-            messages.info(request,'order has been cancelled')
+        Order_total-=tax
+            
+        print('BEFORE  TAX SAVE ',Order_total)
+            
+        order.order_total = round(Order_total)
+        print('AFTER TAX SAVE ',Order_total)
+            
+        order.save()
+            
+        print('AFTER  TAX SAVE ',Order_total)
+            
+            
+        messages.info(request,'order has been cancelled')
     return redirect('myorders')
     
 @login_required(login_url='login')
