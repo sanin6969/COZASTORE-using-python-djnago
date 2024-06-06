@@ -5,6 +5,7 @@
         {% block dashboard %}
 
         <div class="row">
+            {% include "alert.html" %}
             <div class="col-lg-12">
                 <div class="card mb-4 pt-4 pb-3">
                     <h4 class="fw-bolder text-center p-2 "><strong>Your order history</strong></h4>
@@ -16,6 +17,7 @@
                                 <th scope="col">Phone No</th>
                                 <th scope="col">Order Total</th>
                                 <th scope="col">Date</th>
+                                <th scope="col">Order Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -26,6 +28,7 @@
                                 <td>{{order.phone}}</td>
                                 <td>$ {{order.order_total}}</td>
                                 <td>{{order.created_at}}</td>
+                                <td >{{order.status}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>

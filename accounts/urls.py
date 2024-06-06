@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register,login,userout,activate,dashboard,forgotpassword,resetpassword,resetpassword_verify,my_orders,edit_profile,change_password,myorderdetails,cancel_product
+from .views import register,login,userout,activate,dashboard,forgotpassword,resetpassword,resetpassword_verify,my_orders,edit_profile,change_password,myorderdetails,cancel_order
 urlpatterns = [
      path('register',register, name='register'),
      
@@ -19,7 +19,7 @@ urlpatterns = [
      
      path('myorderdetails/<int:order_id>/',myorderdetails, name='myorderdetails'),
      
-     path('cancel_product/<int:order_id>/',cancel_product, name='cancel_product'),
+     path('cancel_order/<int:order_id>/',cancel_order, name='cancel_order'),
      
      path('editprofile',edit_profile, name='editprofile'),
      

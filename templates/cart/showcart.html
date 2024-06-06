@@ -91,7 +91,7 @@
                     </ul>
                     {% for cart_item in cart_items   %}
                     {% if cart_item.product in product_stock_issues %}
-                            <div class="error-message text-danger">There is no enough stock available for {{ cart_item.product.product_name }}.</div>
+                            <div class="error-message text-danger">There is no enough stock available for {{ cart_item.product.product_name }} Available quantity is {{cart_item.product.product_stock}}.</div>
                     {% endif %}
                     {% endfor %}
                     <br>

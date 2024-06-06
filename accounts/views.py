@@ -214,8 +214,34 @@ def myorderdetails(request,order_id):
     }
     return render(request,'dashboard/myorderdetails.html',context)
 
-def cancel_product(request,order_id):
-    order_detail=OrderProduct.objects.filter(order__order_number=order_id)
+def cancel_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    if order.status != 'Cancelled':
+        order.status = 'Cancelled'
+        order.save()
+
+        order_products = OrderProduct.objects.filter(order=order)
+        
+        for item in order_products:
+            # product quantity refunded
+            product = item.product
+            product.product_stock += item.quantity
+            product.save()
+            print('product updated')
+   
+            # income refunded
+            Order_total=order.order_total
+            print('Before',Order_total)
+            tax=item.order.tax
+            print('tax',tax)
+            Order_total-=((item.product_price*item.quantity)+tax)
+            print('BEFORE SAVE ',Order_total)
+            order.order_total = Order_total
+            order.save()
+            print('after',order.order_total)
+            
+            messages.info(request,'order has been cancelled')
+    return redirect('myorders')
     
 @login_required(login_url='login')
 def edit_profile(request):

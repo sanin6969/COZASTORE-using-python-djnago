@@ -40,10 +40,10 @@
                                     <div class="well">
                                         <ul class="list-unstyled mb0">
                                             <li><strong>Order No :</strong> {{order.order_number}}</li>
-                                            {% comment %} <li><strong>Transaction ID :</strong> {{order_detail.payment.payment_id}} {% endcomment %}
+                                            <li><strong>Transaction ID :</strong> {{order.payment_id}}
                                             </li>
                                             <li><strong>Order Date:</strong> {{order.created_at}}</li>
-                                            {% comment %} <li><strong>Status:</strong> {{order_detail.payment.status}}</li> {% endcomment %}
+                                            <li><strong>Status:</strong> {{order.status}}</li>
                                             
                                         </ul>
                                     </div>
@@ -92,7 +92,11 @@
                             <!-- col-lg-12 end here -->
                         </div>
                     </div>
-                    <a href="" class="btn btn-danger mb-2">CANCEL</a>
+                    {% if order.status == "Cancelled" %}
+                    <p  class="btn btn-danger mb-2">Order is cancelled</p>
+                    {% else %}
+                    <a href="{% url 'cancel_order' order.id %}" class="btn btn-danger mb-2">CANCEL</a>
+                    {% endif %}
                 </div>
                 {% endblock dashboard %}
             </div>

@@ -151,6 +151,7 @@
   <div class="sales-section">
       <h3>USER: {{ data.user.username }}</h3>
       <p>Total Orders: {{ data.total_orders }}</p>
+      <p>Cancelled: {{ data.total_cancel }}</p>
       <p>Products Ordered:</p>
       <ul>
           {% for product, quantity in data.product_quantities.items %}

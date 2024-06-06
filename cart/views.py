@@ -13,11 +13,6 @@ def _cart_id(request):
     return cart
 
 def add_cart(request, product_id):
-    # if request.method=='POST':
-    #     color=request.POST['color']
-    #     size=request.POST['size']
-    #     print(color,size)
-        
     current_user=request.user
     if current_user.is_authenticated and current_user.is_superadmin:
         messages.warning(request,"admins cannot add items to the cart.")
@@ -35,6 +30,7 @@ def add_cart(request, product_id):
 
         if is_cart_item_exists:
             cart_items = CartItem.objects.filter(product=product,user=current_user)
+            
             for item in cart_items:
                 item.quantity += 1
                 if item.product.product_stock<item.quantity:
@@ -134,11 +130,10 @@ def cart(request, total=0, quantity=0, cart_items=None):
             total += (cart_item.product.product_price * cart_item.quantity) 
             quantity += cart_item.quantity
             
-            # Check product stock
             if cart_item.quantity > cart_item.product.product_stock:
                 product_stock_issues.append(cart_item.product)
 
-        tax = (2.5 * total) / 100
+        tax = (2 * total) / 100
         grand_total = total + tax
     except ObjectDoesNotExist:
         pass
@@ -171,7 +166,8 @@ def checkout(request,total=0, quantity=0, cart_items=None):
             total += (cart_item.product.product_price * cart_item.quantity) 
             quantity += cart_item.quantity
             
-        tax=(2.5*total)/100
+        tax=(2*total)/100
+        print(tax)
         grand_total=total + tax
     except ObjectDoesNotExist:
         pass
