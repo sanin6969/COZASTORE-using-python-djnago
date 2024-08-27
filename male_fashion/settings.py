@@ -84,16 +84,28 @@ AUTH_USER_MODEL='accounts.Account'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cozastore',
-        'USER':'sanin',
-        'PASSWORD':'plmnkoijb',
-        'HOST':'localhost',
-        'PORT':'5432',
-    }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'cozastore',
+#         'USER':'sanin',
+#         'PASSWORD':'plmnkoijb',
+#         'HOST':'localhost',
+#         'PORT':'5432',
+#     }
+# }
+
+DATABASES={
+    'default':{
+ 	'ENGINE':'django.db.backends.postgresql',
+	'NAME':'cozastore' ,
+	'USER':'cozastore' ,
+	'PASSWORD':'cozastore' ,
+	'HOST':'cozastore.cr0u088oq4ug.eu-north-1.rds.amazonaws.com',
+	'PORT':'5432',
+	}
 }
+
 
 
 # Password validation
@@ -160,5 +172,13 @@ EMAIL_HOST_USER='muhdsaninev@gmail.com'
 EMAIL_HOST_PASSWORD='qhxo fcio snlu gzzc'
 EMAIL_USE_TLS=True
 
-
-# admin password =admin
+# s3 bucket configuaration
+AWS_ACCESS_KEY_ID = 'AKIA5G2VGWOHZI6AX2G2'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'cozastorebucket'
+AWS_S3_SIGNATURE_NAME = 's3v4',
+AWS_S3_REGION_NAME = 'eu-north-1'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL =  None
+AWS_S3_VERITY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
