@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
-# from phonenumber_field.modelfields import PhoneNumberField
-# Create your models here.
 
 class MyaccountManager(BaseUserManager):
     def create_user(self,first_name,last_name,username,email,password=None):
@@ -18,6 +16,7 @@ class MyaccountManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
+    
     def create_superuser(self,first_name,last_name,username,email,password):
         user=self.create_user(
             email       =self.normalize_email(email),
@@ -36,20 +35,21 @@ class MyaccountManager(BaseUserManager):
         
         
 class Account(AbstractBaseUser):
-    first_name      =models.CharField(max_length=50)
-    last_name       =models.CharField(max_length=50)
-    username        =models.CharField(max_length=50,unique=True)
-    email           =models.EmailField(max_length=254,unique=True)
-    phone_number    =models.CharField(max_length=50,null=True)
+    first_name      = models.CharField(max_length=50)
+    last_name       = models.CharField(max_length=50)
+    username        = models.CharField(max_length=50,unique=True)
+    email           = models.EmailField(max_length=254,unique=True)
+    phone_number    = models.CharField(max_length=50,null=True)
     
     # required
-    date_joined     =models.DateTimeField(auto_now_add=True)
-    last_logined     =models.DateTimeField(auto_now_add=True)
-    is_admin        =models.BooleanField(default=False)
-    is_staff        =models.BooleanField(default=False)
-    is_active       =models.BooleanField(default=False)
-    is_superadmin   =models.BooleanField(default=False)
-    is_blocked = models.BooleanField(default=False)
+    date_joined     = models.DateTimeField(auto_now_add=True)
+    last_logined    = models.DateTimeField(auto_now_add=True)
+    is_admin        = models.BooleanField(default=False)
+    is_staff        = models.BooleanField(default=False)
+    is_active       = models.BooleanField(default=False)
+    is_superadmin   = models.BooleanField(default=False)
+    is_blocked      = models.BooleanField(default=False)
+    
     #To change username into email for using login
     USERNAME_FIELD='email'
     REQUIRED_FIELDS=['username','first_name','last_name']
@@ -64,6 +64,7 @@ class Account(AbstractBaseUser):
     
     def has_module_perms(self,add_label):
         return True
+    
 class UserProfile(models.Model):
     user=models.OneToOneField(Account,on_delete=models.CASCADE)
     address_line_1=models.CharField(blank=True,max_length=200)
@@ -77,3 +78,5 @@ class UserProfile(models.Model):
     
     def full_address(self):
         return f'{self.address_line_1}{self.address_line_2}'
+    
+    

@@ -105,6 +105,7 @@ def payments(request):
         product=Product.objects.get(id=item.product_id)
         product.product_stock-=item.quantity
         product.save()
+        
     # clear the cart
     CartItem.objects.filter(user=request.user).delete()
     
