@@ -35,6 +35,7 @@ def details(request,category_slug,product_slug):
     except Exception as e:
         raise e
     product_url = request.build_absolute_uri(reverse('product_detail', args=[category_slug, product_slug]))
+    # product_url = f"http://13.51.13.93/product/{category_slug}/{product_slug}/"
     
     context={
         'single_product':single_product,
