@@ -95,16 +95,6 @@ DATABASES = {
     }
 }
 
-# DATABASES={
-#     'default':{
-#  	'ENGINE':'django.db.backends.postgresql',
-# 	'NAME':'cozastore' ,
-# 	'USER':'cozastore' ,
-# 	'PASSWORD':'cozastore' ,
-# 	'HOST':'cozastore.cr0u088oq4ug.eu-north-1.rds.amazonaws.com',
-# 	'PORT':'5432',
-# 	}
-# }
 
 
 
